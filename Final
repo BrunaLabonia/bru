@@ -1,0 +1,41 @@
+
+import csv
+CADASTROS = []
+dict_keys = ("id", "produto", "valor")
+
+def cadastra_prod(id, produto, valor):
+    new_prod = {}
+    for i, j  in zip((id, produto, valor), dict_keys):
+        new_prod[j] = i
+    CADASTROS.append(new_prod)
+
+def listar_prod():
+    lista = " | ".join(dict_keys) + "\n"
+    for cad in CADASTROS:
+        lista += " | ".join(list(cad.values())) + "\n"
+    return lista
+
+def csv_prod():
+    with open("prod.csv", "w", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=dict_keys, delimiter=";")
+
+        writer.writeheader()
+        writer.writerows(CADASTROS)
+
+answer = "s"
+while answer in ("s", "S"):
+    id = input("ID: ")
+    produto = input("PRODUTO: ")
+    valor = input("VALOR: ")
+
+    cadastra_prod(id, produto, valor)
+
+    print("cadastrado com sucesso!\n")
+
+    answer = input("Continuar cadastrando? (S/N): ")
+
+lista = listar_prod()
+print(lista)
+
+csv_prod()
+print("CSV criado.")
